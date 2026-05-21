@@ -1,28 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
-<%
-    request.setCharacterEncoding("UTF-8");
-%>
 <%@ page import="mall.*" %>
 
 <%
+    request.setCharacterEncoding("UTF-8");
+
     캐릭터 character = (캐릭터)session.getAttribute("character");
 
-    // ⭐ null 방어 (필수)
     if(character == null) {
 %>
-
     <h2>캐릭터 정보 없음</h2>
-    <p>먼저 캐릭터 생성 페이지를 실행하세요.</p>
-
 <%
         return;
     }
 
-    int 데미지 = character.데미지계산();
-    String 등급 = character.등급부여(데미지);
-    String 스킬명 = character.스킬발동();
+    전투 battle = new 전투();
+
+    int 데미지 = battle.데미지계산(character);
+    String 스킬명 = battle.스킬발동(character);
+    String 등급 = battle.등급부여(데미지);
 %>
 
 <!DOCTYPE html>

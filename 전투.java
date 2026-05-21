@@ -2,31 +2,33 @@ package mall;
 
 public class 전투 {
 
-    public 캐릭터 캐릭터생성(String id, String 이름, String 직업, int 레벨) {
-
-        플레이어 player = new 플레이어();
-
-        if (!player.플레이어체크(id)) {
-            return null;
-        }
-
-        if ("전사".equals(직업)) {
-            return new 전사(id, 이름, 레벨);
-        }
-
-        return new 마법사(id, 이름, 레벨);
+    public boolean 플레이어검증(String id) {
+        플레이어 p = new 플레이어();
+        return p.플레이어체크(id);
     }
 
-    public String 몬스터공격(캐릭터 character) {
+    public int 데미지계산(캐릭터 c) {
 
-        int 데미지 = character.데미지계산();
+        if ("전사".equals(c.get직업())) {
+            return (int)(c.get공격력() * 1.5);
+        } else {
+            return (int)(c.get공격력() * 2.0);
+        }
+    }
 
-        String 등급 = character.등급부여(데미지);
+    public String 스킬발동(캐릭터 c) {
 
-        return character.스킬발동()
-                + " / 데미지 : "
-                + 데미지
-                + " / "
-                + 등급;
+        if ("전사".equals(c.get직업())) {
+            return "검 휘두르기!";
+        } else {
+            return "파이어볼!";
+        }
+    }
+
+    public String 등급부여(int 데미지) {
+
+        if (데미지 >= 200) return "S급 공격";
+        if (데미지 >= 100) return "A급 공격";
+        return "B급 공격";
     }
 }
