@@ -1,3 +1,4 @@
+```mermaid
 graph LR
     %% 액터 설정
     플레이어((플레이어))
@@ -13,9 +14,9 @@ graph LR
     플레이어 --> UC_Create
     플레이어 --> UC_Attack
 
-    UC_Create -.->|<<include>>| UC_Check
-    UC_Attack -.->|<<include>>| UC_Check
+    UC_Create -.->|"<<include>>"| UC_Check
+    UC_Attack -.->|"<<include>>"| UC_Check
     
-    %% AI 연동 표현 (공격 액션이 일어나면 AI가 이를 인지하고 분석함)
-    UC_Attack -.->|<<secondary>>| AI_System
+    %% AI 연동 표현
+    UC_Attack -.->|"<<secondary>>"| AI_System
     AI_System --> UC_Analyze
