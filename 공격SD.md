@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     autonumber
     actor 플_Actor as 플레이어 (Actor)
@@ -11,18 +12,18 @@ sequenceDiagram
     전->>+플_매니저: 플레이어체크(플레이어id)
     플_매니저-->>-전: 체크 결과 (boolean)
 
-    alt 체크 결과 == true (인증 성공)
-        %% 1. 다형성을 이용한 스킬 발동 (전투컨트롤러는 직업을 몰라도 됨)
+    alt 체크 결과가 true인 경우 (인증 성공)
+        %% 1. 다형성을 이용한 스킬 발동
         전->>+캐: 스킬발동() 호출
         Note over 캐: 객체 내부에서 직업에 맞는<br/>스킬 수행 및 데미지 계산
         캐-->>-전: 스킬 결과 반환 (스킬명, 최종데미지)
 
         %% 2. 데미지 등급 판정
-        alt 최종데미지 >= 200
+        alt 최종데미지 200 이상
             Note over 전: 등급 = "S급 공격"
-        else 최종데미지 >= 100
+        else 최종데미지 100 이상
             Note over 전: 등급 = "A급 공격"
-        else 최종데미지 < 100
+        else 최종데미지 100 미만
             Note over 전: 등급 = "B급 공격"
         end
 
@@ -37,6 +38,6 @@ sequenceDiagram
 
         전-->>플_Actor: 최종 스킬 결과, 등급, 몬스터 상태 출력
         
-    else 체크 결과 == false (인증 실패)
+    else 체크 결과가 false인 경우 (인증 실패)
         전-->>-플_Actor: "플레이어 인증 실패" 메시지 출력
     end
