@@ -1,22 +1,20 @@
+## Use Case Diagram
+
 ```mermaid
-graph LR
-    %% 액터 설정
-    플레이어((플레이어))
-    AI_System(((전투 AI 엔진)))
+usecaseDiagram
+    actor "플레이어" as Player
 
-    %% 유스케이스 설정
-    UC_Create["캐릭터 생성<br/>(직업별 스탯 산출)"]
-    UC_Attack["몬스터 공격<br/>(데미지 계산 & 랭크 부여)"]
-    UC_Check["플레이어 검증<br/>(id=='hero')"]
-    UC_Analyze["플레이어 패턴 분석<br/>및 반격 패턴 결정"]
+    package "전투 시스템" {
+        usecase "캐릭터 생성" as UC_Create
+        usecase "몬스터 공격" as UC_Attack
+        usecase "플레이어 검증" as UC_Check
+    }
 
-    %% 관계 선언
-    플레이어 --> UC_Create
-    플레이어 --> UC_Attack
+    Player --> UC_Create
+    Player --> UC_Attack
 
-    UC_Create -.->|"<<include>>"| UC_Check
-    UC_Attack -.->|"<<include>>"| UC_Check
-    
-    %% AI 연동 표현
-    UC_Attack -.->|"<<secondary>>"| AI_System
-    AI_System --> UC_Analyze
+    UC_Create ..> UC_Check : <<include>>
+    UC_Attack ..> UC_Check : <<include>>
+```
+
+---

@@ -1,12 +1,21 @@
-## AI 전투 시스템 Class Diagram
+# Class Diagram
 
 ```mermaid
 classDiagram
 
+    class Create_Character_UI {
+        <<boundary>>
+        +입력정보전달()
+    }
+
+    class Attack_Monster_UI {
+        <<boundary>>
+        +공격명령전달()
+    }
+
     class 플레이어 {
         +String 플레이어ID
-        +캐릭터 생성캐릭터
-        +플레이어검증(id: String) boolean
+        +플레이어체크(id : String) boolean
     }
 
     class 캐릭터 {
@@ -26,22 +35,9 @@ classDiagram
         +스킬발동() double
     }
 
-    class 전투시스템 {
+    class 전투 {
         +캐릭터생성(id, 이름, 직업, 레벨)
         +몬스터공격(캐릭터)
-        +데미지계산() double
-        +랭크부여(데미지) String
-    }
-
-     class 전투 {
-        +캐릭터생성(id, 이름, 직업, 레벨)
-        +몬스터공격(캐릭터)
-    }
-
-    class 몬스터 {
-        +String 몬스터명
-        +int HP
-        +반격() void
     }
 
     %% 상속 관계
@@ -49,8 +45,9 @@ classDiagram
     캐릭터 <|-- 마법사
 
     %% 연관 관계
-    플레이어 --> 캐릭터 : 소유
-     전투 --> 플레이어 : 검증
+    Create_Character_UI ..> 전투 : 호출
+    Attack_Monster_UI ..> 전투 : 호출
+
+    전투 --> 플레이어 : 검증
     전투 --> 캐릭터 : 생성/관리
-    전투 --> 몬스터 : 공격
 ```
