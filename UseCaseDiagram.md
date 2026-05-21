@@ -1,20 +1,17 @@
-## Use Case Diagram
+# Use Case Diagram
 
 ```mermaid
-usecaseDiagram
-    actor "플레이어" as Player
+flowchart LR
 
-    package "전투 시스템" {
-        usecase "캐릭터 생성" as UC_Create
-        usecase "몬스터 공격" as UC_Attack
-        usecase "플레이어 검증" as UC_Check
-    }
+    Player([플레이어])
+
+    UC_Create((캐릭터 생성))
+    UC_Attack((몬스터 공격))
+    UC_Check((플레이어 체크))
 
     Player --> UC_Create
     Player --> UC_Attack
 
-    UC_Create ..> UC_Check : <<include>>
-    UC_Attack ..> UC_Check : <<include>>
+    UC_Create -. include .-> UC_Check
+    UC_Attack -. include .-> UC_Check
 ```
-
----
