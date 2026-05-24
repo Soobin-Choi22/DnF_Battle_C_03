@@ -23,15 +23,13 @@
 
     전투 battle = new 전투();
 
-    캐릭터 character = null;
+    캐릭터 character = battle.캐릭터생성(id, 이름, 직업, 레벨);
 
-    if ("전사".equals(직업)) {
-        character = new 전사(id, 이름, 레벨, 직업);
+    if(character != null) {
+        session.setAttribute("character", character);
     } else {
-        character = new 마법사(id, 이름, 레벨, 직업);
+        session.removeAttribute("character");
     }
-
-    session.setAttribute("character", character);
 %>
 
 <!DOCTYPE html>
@@ -56,6 +54,7 @@
 <% } else { %>
 
     <h2>플레이어 인증 실패</h2>
+    <p>존재하지 않는 플레이어 ID입니다.</p>
 
 <% } %>
 

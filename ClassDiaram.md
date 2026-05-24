@@ -19,12 +19,15 @@ classDiagram
     }
 
     class 캐릭터 {
-        <<abstract>>
-        +String 캐릭터명
-        +int 레벨
-        +int HP
-        +int 공격력
-        +스킬발동() double
+    <<abstract>>
+    +String 플레이어ID
+    +String 캐릭터명
+    +String 직업
+    +int 레벨
+    #int HP
+    #int 공격력
+    +get플레이어ID() String
+    +스킬발동() double
     }
 
     class 전사 {
@@ -36,8 +39,11 @@ classDiagram
     }
 
     class 전투 {
-        +캐릭터생성(id, 이름, 직업, 레벨)
-        +몬스터공격(캐릭터)
+        +플레이어검증(id : String) boolean
+        +캐릭터생성(id : String, 이름 : String, 직업 : String, 레벨 : int) 캐릭터
+        +데미지계산(c : 캐릭터) int
+        +스킬발동(c : 캐릭터) String
+        +등급부여(데미지 : int) String
     }
 
     %% 상속 관계

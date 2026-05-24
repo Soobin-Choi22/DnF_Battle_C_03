@@ -10,12 +10,41 @@
 
     if(character == null) {
 %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>몬스터 공격 결과</title>
+</head>
+<body>
     <h2>캐릭터 정보 없음</h2>
+    <p>먼저 캐릭터를 생성해주세요.</p>
+</body>
+</html>
 <%
         return;
     }
 
     전투 battle = new 전투();
+
+    boolean 검증결과 = battle.플레이어검증(character.get플레이어ID());
+
+    if(!검증결과) {
+%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>몬스터 공격 결과</title>
+</head>
+<body>
+    <h2>플레이어 인증 실패</h2>
+    <p>유효하지 않은 플레이어 정보입니다.</p>
+</body>
+</html>
+<%
+        return;
+    }
 
     int 데미지 = battle.데미지계산(character);
     String 스킬명 = battle.스킬발동(character);
