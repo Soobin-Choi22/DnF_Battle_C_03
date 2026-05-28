@@ -22,7 +22,7 @@
             String 플레이어ID = request.getParameter("playerId");
             
             // 💡 다이어그램 스펙: battle.길드가입(id, c, g)을 그대로 호출하여 검증 및 정원 제어
-            전투 battle = new \전투();
+            전투 battle = new 전투();
             가입결과 = battle.길드가입(플레이어ID, character, 레전드길드);
         }
     }
