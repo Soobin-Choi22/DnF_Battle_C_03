@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@ page import="mall.*" %>
+<%@ page import="java.util.List" %>
 
 <%
     request.setCharacterEncoding("UTF-8");
@@ -65,12 +66,29 @@
 <p>캐릭터명 : <%= character.get캐릭터명() %></p>
 <p>레벨 : <%= character.get레벨() %></p>
 <p>공격력 : <%= character.get공격력() %></p>
+<p>소속 길드 : <%= character.get길드명() != null ? character.get길드명() : "무소속" %></p>
 
 <hr>
 
 <p>스킬 : <%= 스킬명 %></p>
 <p>최종 데미지 : <%= 데미지 %></p>
 <p>등급 : <%= 등급 %></p>
+
+<hr>
+
+<h3>인벤토리 정보 (<%= character.get인벤토리().size() %> / 30)</h3>
+<ul>
+    <% 
+        List<아이템> 아이템목록 = character.get인벤토리();
+        if(아이템목록 != null) {
+            for(아이템 item : 아이템목록) { 
+    %>
+        <li><%= item.get아이템명() %> (<%= item.get아이템종류() %>) - 가치: <%= item.get아이템가치() %> [<%= item.get등급() %>]</li>
+    <% 
+            }
+        } 
+    %>
+</ul>
 
 </body>
 </html>
