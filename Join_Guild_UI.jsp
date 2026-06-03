@@ -1,69 +1,116 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
 <%@ page import="mall.*" %>
+
 <%
     request.setCharacterEncoding("UTF-8");
 
-    // 세션에서 가입을 진행할 캐릭터 스냅샷 확보
+    // 세션에서 캐릭터 불러오기
     캐릭터 character = (캐릭터) session.getAttribute("character");
+
     String 가입결과 = "";
 
-    // 테스트 환경을 위해 서버 메모리(application)에 테라코타 전용 가입용 길드가 없으면 생성해둠 (Aggregation 타겟)
+    // application 영역에 공용 길드 저장
     길드 레전드길드 = (길드) application.getAttribute("globalGuild");
+
     if (레전드길드 == null) {
         레전드길드 = new 길드("아라드 수호자");
         application.setAttribute("globalGuild", 레전드길드);
     }
 
     String action = request.getParameter("action");
+
     if ("가입".equals(action)) {
         if (character == null) {
-            가입결과 = "캐릭터 정보가 유실되었습니다. 생성을 먼저 진행하세요.";
+            가입결과 = "캐릭터 정보가 없습니다. 먼저 캐릭터를 생성하세요.";
         } else {
             String 플레이어ID = request.getParameter("playerId");
-            
-            // 💡 다이어그램 스펙: battle.길드가입(id, c, g)을 그대로 호출하여 검증 및 정원 제어
+
             전투 battle = new 전투();
             가입결과 = battle.길드가입(플레이어ID, character, 레전드길드);
+
+            // 길드 정보가 캐릭터에 반영되는 구조라면 세션에 다시 저장
+            session.setAttribute("character", character);
+
+            // 길드도 application에 다시 저장
+            application.setAttribute("globalGuild", 레전드길드);
         }
     }
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Join Guild UI - 길드 가입</title>
+<meta charset="UTF-8">
+<title>Join Guild UI</title>
 </head>
+
 <body>
-    <h2>🏰 [신규 기능 2] 길드 가입 연계 시스템</h2>
+
+<h2>길드 가입 시스템</h2>
+
+<% if (character == null) { %>
+
+    <p>캐릭터 정보가 없습니다. 먼저 캐릭터를 생성하세요.</p>
+    <a href="Create_Chatacter_UI.jsp">캐릭터 생성하러 가기</a>
+
+<% } else { %>
+
+    <p>현재 캐릭터 : <%= character.get캐릭터명() %></p>
+    <p>플레이어ID : <%= character.get플레이어ID() %></p>
+    <p>직업 : <%= character.get직업() %></p>
+
     <hr>
 
-    <% if (!가입결과.isEmpty()) { %>
-        <div style="padding: 10px; background-color: #e8f5e9; border: 1px solid #4caf50; margin-bottom: 20px;">
-            <strong>길드 사무소 알림:</strong> <%= 가입결과 %>
-        </div>
-    <% } %>
+    <p>가입 가능 길드명 : <strong><%= 레전드길드.get길드명() %></strong></p>
 
-    <p>🛡️ 가입 가능 타겟 길드명: <strong>아라드 수호자</strong> (정원 최대 5명 제한)</p>
+    <% if (!가입결과.isEmpty()) { %>
+        <p><strong>가입 결과 :</strong> <%= 가입결과 %></p>
+        <hr>
+    <% } %>
 
     <form method="post" action="Join_Guild_UI.jsp">
         <input type="hidden" name="action" value="가입">
-        
+
         <table border="1" cellpadding="5" cellspacing="0">
             <tr>
                 <td>요청 플레이어 ID</td>
-                <td><input type="text" name="playerId" value="<%= character != null ? character.get플레이어ID() : "" %>" required></td>
+                <td>
+                    <input type="text" name="playerId"
+                        value="<%= character.get플레이어ID() %>" required>
+                </td>
             </tr>
+
             <tr>
                 <td>현재 대상 캐릭터명</td>
-                <td><input type="text" value="<%= character != null ? character.get캐릭터명() : "캐릭터 없음" %>" disabled></td>
+                <td>
+                    <input type="text"
+                        value="<%= character.get캐릭터명() %>" disabled>
+                </td>
+            </tr>
+
+            <tr>
+                <td>가입 대상 길드</td>
+                <td>
+                    <input type="text"
+                        value="<%= 레전드길드.get길드명() %>" disabled>
+                </td>
             </tr>
         </table>
+
         <br>
-        <button type="submit">길드 가입 신청 (Aggregation 1:N)</button>
+
+        <button type="submit">길드 가입 신청</button>
     </form>
 
-    <br>
     <hr>
-    <a href="Attack_Monster_UI.jsp">⚔️ 소속 길드명 반영 상태 확인하러 가기</a>
+
+    <a href="Attack_Monster_UI.jsp">몬스터 공격하기</a><br>
+    <a href="Add_Item_UI.jsp">아이템 획득하기</a><br>
+    <a href="Create_Chatacter_UI.jsp">캐릭터 생성 페이지</a>
+
+<% } %>
+
 </body>
 </html>
