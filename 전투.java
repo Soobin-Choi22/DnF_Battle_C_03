@@ -7,9 +7,9 @@ public class 전투 {
             return null;
         }
         if ("전사".equals(직업)) {
-            return new 전사(id, 이름, 레벨);
+            return new 전사(id, 이름, 레벨, 직업);
         } else if ("마법사".equals(직업)) {
-            return new 마법사(id, 이름, 레벨);
+            return new 마법사(id, 이름, 레벨, 직업);
         }
         return null;
     }
