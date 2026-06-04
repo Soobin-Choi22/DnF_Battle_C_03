@@ -1,4 +1,4 @@
-package mall;
+package Mall;
 
 public class 전사 extends 캐릭터 {
 

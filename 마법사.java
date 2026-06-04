@@ -1,4 +1,4 @@
-package mall;
+package Mall;
 
 public class 마법사 extends 캐릭터 {
 

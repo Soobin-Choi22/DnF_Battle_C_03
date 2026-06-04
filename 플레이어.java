@@ -1,4 +1,4 @@
-package mall;
+package Mall;
 
 public class 플레이어 {
 
